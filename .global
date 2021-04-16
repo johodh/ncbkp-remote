@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # these settings need to be modified to match your setup
 
 # HTTPD_USER should be set to the nextcloud server httpd user. e.g. raspbian uses www-data, arch/manjaro uses http

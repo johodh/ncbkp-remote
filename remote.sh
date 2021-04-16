@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # this is the remote part of ncbkp. the main script ncbkp.sh should execute this script at your nextcloud server acting as the httpd user
 
 # test remote paths
