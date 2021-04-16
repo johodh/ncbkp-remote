@@ -1,0 +1,38 @@
+# these settings need to be modified to match your setup
+
+# HTTPD_USER should be set to the nextcloud server httpd user. e.g. raspbian uses www-data, arch/manjaro uses http
+HTTPD_USER="www-data"
+
+# logging (local paths)
+SCRIPTLOG="$HOME/ncbkp/logs/ncbkp.log"
+RSYNCLOG="$HOME/ncbkp/logs/ncbkp.rsync.log"
+
+# paths to the data you want to backup at your nextcloud server
+NC_WEBROOT="/var/www/nextcloud"
+NC_CONFIG_PATH="/var/www/nextcloud/config"
+NC_DATA="/media/nextcloud"
+
+# temporary storage at the nextcloud server for the mysqldump of your database. make sure the path is accessible only to httpd user.
+DB_BKP_PATH="/tmp/nextcloud-db.bkp"
+
+# the ssh user needs passwordless sudo privileges for this script to work. e.g. the default pi user on raspbian would do the trick. this is to be able to act as the httpd user which owns all relevant nextcloud paths.
+SSH_KEYFILE=""
+SSH_USERHOST="pi@nextcloud"
+
+# rsync settings, any specific rsync flags or options goes here.
+RSYNC_CMD="rsync -AaPxv --delete --log-file=${RSYNCLOG} --rsync-path='sudo -u ${HTTPD_USER} rsync'"
+RSYNC_TARGET="${PWD}/ncbkp"
+
+# there should be no need to change the following
+OCC="php ${NC_WEBROOT}/occ"
+
+function LOG
+{
+	if test $1 = "e"; then event="[error]:"
+	elif test $1 = "s"; then event="[success]:"
+	else event="";
+	fi
+	timestamp=$(date +%Y-%m-%d_%H:%M | sed 's/_/ /g')
+	echo [${timestamp}] $event $2 
+}
+
