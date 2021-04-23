@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily nextcloud backup
+
+[Timer]
+# run script every day at 2am
+OnCalendar=*-*-* 2:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

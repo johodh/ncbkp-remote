@@ -2,8 +2,11 @@
 
 # this is the remote edition of ncbkp, a nextcloud backup script relying on rsync. this script is intended to be run on a LAN side machine to access a nextcloud server inside a DMZ and extract backups of nextcloud data, database and config.  
 
+script=$(readlink -f $0)
+scriptpath=$(dirname $script)
+
 # read global settings
-source $PWD/.global
+source $scriptpath/.global
 
 # Log new backup session
 printf "------------------\nNew backup session\n------------------" >> $SCRIPTLOG
@@ -28,7 +31,7 @@ else LOG s "has privileges to act as user $HTTPD_USER on $SSH_USERHOST" >> $SCRI
 fi 
 
 # run remote.sh at nextcloud server (as httpd user)
-cat .global remote.sh | ssh $SSH_WITH_KEY $SSH_USERHOST sudo -u $HTTPD_USER /bin/bash >> $SCRIPTLOG
+cat $scriptpath/.global $scriptpath/remote.sh | ssh $SSH_WITH_KEY $SSH_USERHOST sudo -u $HTTPD_USER /bin/bash >> $SCRIPTLOG
 
 # catch remote errors, if any
 if [ $? -eq 1 ]; then 

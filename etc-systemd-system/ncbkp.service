@@ -1,0 +1,10 @@
+# this service and timer is meant to run at the backup destination
+# e.g. with a dedicated user named ncbkp
+
+[Unit]
+Description=Nextcloud backup
+
+[Service]
+User=ncbkp
+Group=ncbkp
+ExecStart=/bin/bash /path/to/ncbkp.sh
